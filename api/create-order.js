@@ -63,7 +63,15 @@ export default async function handler(req, res) {
                         name: fullName,
                         address1: address,
                         phone: phoneNumber,
-                        city: "Dhaka",
+                        city: "",
+                        country: "Bangladesh",
+                    },
+                    
+                    shipping_address: {
+                        name: fullName,
+                        address1: address,
+                        phone: phoneNumber,
+                        city: "",
                         country: "Bangladesh",
                     },
 
