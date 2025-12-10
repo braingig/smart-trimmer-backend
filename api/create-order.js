@@ -49,6 +49,14 @@ export default async function handler(req, res) {
         const randomNum = Math.floor(1000 + Math.random() * 9000);
         const uniqueEmail = `${baseName}${randomNum}@gmail.com`;
 
+        let city = "Dhaka";
+        if (address && typeof address === "string") {
+            const parts = address.split(",").map(p => p.trim()).filter(Boolean);
+            if (parts.length > 0) {
+                // assume last part is city/district
+                city = parts[parts.length - 1] || "Dhaka";
+            }
+        }
         const response = await axios.post(
             `https://${SHOPIFY_STORE}/admin/api/2024-01/orders.json`,
             {
@@ -65,13 +73,19 @@ export default async function handler(req, res) {
 
                     billing_address: {
                         name: fullName,
-                        address1: address,
+                        address1: address || "",
                         phone: phoneNumber,
-                        city: "Dhaka",
+                        city: city,
                         country: "Bangladesh",
                     },
 
-
+                    shipping_address: {
+                        name: fullName,
+                        address1: address || "",
+                        phone: phoneNumber,
+                        city: city,
+                        country: "Bangladesh",
+                    },
                     line_items: [
                         {
                             variant_id: Number(VARIANT_ID),
