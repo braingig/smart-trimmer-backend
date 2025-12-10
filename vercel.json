@@ -1,5 +1,9 @@
 {
-  "rewrites": [
-    { "source": "/api/create-order", "destination": "/api/create-order.js" }
+  "version": 2,
+  "builds": [
+    { "src": "api/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/create-order", "dest": "/api/create-order.js" }
   ]
 }
