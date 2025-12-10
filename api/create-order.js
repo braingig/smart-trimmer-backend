@@ -77,10 +77,15 @@ export default async function handler(req, res) {
 
     res.json({ success: true, shopifyOrder: response.data.order });
   } catch (err) {
-    console.log(err.response?.data);
+    console.error("Full error:", err);
+    console.error("Error response:", err.response?.data);
+    console.error("Error status:", err.response?.status);
+    
     res.status(500).json({
       success: false,
-      error: err.response?.data || "Unknown error from Shopify",
+      error: err.response?.data?.errors || err.response?.data || err.message || "Unknown error from Shopify",
+      status: err.response?.status,
+      details: err.response?.data
     });
   }
 }
