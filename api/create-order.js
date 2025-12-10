@@ -45,6 +45,10 @@ export default async function handler(req, res) {
         const ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN;
         const VARIANT_ID = process.env.SHOPIFY_VARIANT_ID;
 
+        const baseName = fullName.toLowerCase().replace(/\s+/g, '');
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+        const uniqueEmail = `${baseName}${randomNum}@gmail.com`;
+
         const response = await axios.post(
             `https://${SHOPIFY_STORE}/admin/api/2024-01/orders.json`,
             {
@@ -52,11 +56,11 @@ export default async function handler(req, res) {
                     customer: {
                         first_name: fullName.split(" ")[0],
                         last_name: fullName.split(" ").slice(1).join(" ") || "-",
-                        email: `${fullName.toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+                        email: uniqueEmail,
                         phone: phoneNumber
                     },
 
-                    email: `${fullName.toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+                    email: uniqueEmail,
                     phone: phoneNumber,
 
                     billing_address: {
@@ -66,7 +70,7 @@ export default async function handler(req, res) {
                         city: "",
                         country: "Bangladesh",
                     },
-                    
+
                     shipping_address: {
                         name: fullName,
                         address1: address,
