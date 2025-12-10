@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/create-order.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/create-order", "dest": "api/create-order.js" }
+  ]
+}

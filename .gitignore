@@ -36,3 +36,4 @@ build/
 # Render / deployment artifacts
 .vercel/
 .netlify/
+.vercel
