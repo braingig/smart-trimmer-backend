@@ -1,6 +1,30 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).json({
+      message: "Smart Trimmer Create Order API",
+      method: "POST",
+      requiredFields: {
+        fullName: "string",
+        phoneNumber: "string", 
+        address: "string",
+        quantity: "number"
+      },
+      example: {
+        fullName: "John Doe",
+        phoneNumber: "01712345678",
+        address: "123 Main St, Dhaka",
+        quantity: 1
+      },
+      environmentStatus: {
+        SHOPIFY_STORE: process.env.SHOPIFY_STORE ? "✓ Set" : "✗ Missing",
+        SHOPIFY_ADMIN_TOKEN: process.env.SHOPIFY_ADMIN_TOKEN ? "✓ Set" : "✗ Missing", 
+        SHOPIFY_VARIANT_ID: process.env.SHOPIFY_VARIANT_ID ? "✓ Set" : "✗ Missing"
+      }
+    });
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
