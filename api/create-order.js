@@ -2,10 +2,10 @@ import axios from "axios";
 import dotenv from "dotenv";
 import cors from "cors";
 import express from "express";
+const app = express();
 
 dotenv.config();
 app.use(cors());
-const app = express();
 export default async function handler(req, res) {
     // Add CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
