@@ -1,4 +1,6 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default async function handler(req, res) {
     // Add CORS headers
@@ -42,6 +44,7 @@ export default async function handler(req, res) {
 
     try {
         const SHOPIFY_STORE = process.env.SHOPIFY_STORE;
+        console.log("Shopify Store:", SHOPIFY_STORE);
         const ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN;
         const VARIANT_ID = process.env.SHOPIFY_VARIANT_ID;
 
@@ -57,46 +60,48 @@ export default async function handler(req, res) {
                 city = parts[parts.length - 1] || "Dhaka";
             }
         }
-        const response = await axios.post(
-            `https://${SHOPIFY_STORE}/admin/api/2024-01/orders.json`,
-            {
-                order: {
-                    customer: {
-                        first_name: fullName.split(" ")[0],
-                        last_name: fullName.split(" ").slice(1).join(" ") || "-",
-                        email: uniqueEmail,
-                        phone: phoneNumber
-                    },
-
+        const data = {
+            order: {
+                customer: {
+                    first_name: fullName.split(" ")[0],
+                    last_name: fullName.split(" ").slice(1).join(" ") || "-",
                     email: uniqueEmail,
-                    phone: phoneNumber,
-
-                    billing_address: {
-                        name: fullName,
-                        address1: address || "",
-                        phone: phoneNumber,
-                        city: city,
-                        country: "Bangladesh",
-                    },
-
-                    shipping_address: {
-                        name: fullName,
-                        address1: address || "",
-                        phone: phoneNumber,
-                        city: city,
-                        country: "Bangladesh",
-                    },
-                    line_items: [
-                        {
-                            variant_id: Number(VARIANT_ID),
-                            quantity,
-                        }
-                    ],
-
-                    financial_status: "pending",
+                    phone: phoneNumber
                 },
 
+                email: uniqueEmail,
+                phone: phoneNumber,
+
+                billing_address: {
+                    name: fullName,
+                    address1: address || "",
+                    phone: phoneNumber,
+                    city: city,
+                    country: "Bangladesh",
+                },
+
+                shipping_address: {
+                    name: fullName,
+                    address1: address || "",
+                    phone: phoneNumber,
+                    city: city,
+                    country: "Bangladesh",
+                },
+                line_items: [
+                    {
+                        variant_id: Number(VARIANT_ID),
+                        quantity,
+                    }
+                ],
+
+                financial_status: "pending",
             },
+
+        }
+        console.log(data)
+        const response = await axios.post(
+            `https://${SHOPIFY_STORE}/admin/api/2024-01/orders.json`,
+            data,
             {
                 headers: {
                     "X-Shopify-Access-Token": ACCESS_TOKEN,
