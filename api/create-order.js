@@ -57,15 +57,15 @@ export default async function handler(req, res) {
         }
         const data = {
             order: {
+                customer_creation_enabled: true,
                 customer: {
                     first_name: fullName.split(" ")[0],
                     last_name: fullName.split(" ").slice(1).join(" ") || "-",
                     email: uniqueEmail,
-                    phone: phoneNumber
+                    phone: `+88${phoneNumber.replace(/^0/, "")}`
                 },
 
                 email: uniqueEmail,
-                phone: phoneNumber,
 
                 billing_address: {
                     name: fullName,
