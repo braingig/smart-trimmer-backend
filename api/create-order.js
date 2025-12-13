@@ -55,12 +55,15 @@ export default async function handler(req, res) {
                 city = parts[parts.length - 1] || "Dhaka";
             }
         }
+        const firstName = fullName.split(" ")[0];
+        const lastName = fullName.split(" ").slice(1).join(" ") || "-";
+
         const data = {
             order: {
                 customer_creation_enabled: true,
                 customer: {
-                    first_name: fullName.split(" ")[0],
-                    last_name: fullName.split(" ").slice(1).join(" ") || "-",
+                    first_name: firstName,
+                    last_name: lastName,
                     email: uniqueEmail,
                     phone: `+88${phoneNumber.replace(/^0/, "")}`
                 },
@@ -68,7 +71,8 @@ export default async function handler(req, res) {
                 email: uniqueEmail,
 
                 billing_address: {
-                    name: fullName,
+                    first_name: firstName,
+                    last_name: lastName,
                     address1: address || "",
                     phone: phoneNumber,
                     city: city,
@@ -76,7 +80,8 @@ export default async function handler(req, res) {
                 },
 
                 shipping_address: {
-                    name: fullName,
+                    first_name: firstName,
+                    last_name: lastName,
                     address1: address || "",
                     phone: phoneNumber,
                     city: city,
@@ -93,6 +98,7 @@ export default async function handler(req, res) {
             },
 
         }
+        console.log("FINAL PAYLOAD:", JSON.stringify(data, null, 2));
         const response = await axios.post(
             `https://${SHOPIFY_STORE}/admin/api/2024-01/orders.json`,
             data,
