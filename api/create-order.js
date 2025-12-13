@@ -45,9 +45,7 @@ export default async function handler(req, res) {
         const ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN;
         const VARIANT_ID = process.env.SHOPIFY_VARIANT_ID;
 
-        const baseName = fullName.toLowerCase().replace(/\s+/g, '');
-        const randomNum = Math.floor(1000 + Math.random() * 9000);
-        const uniqueEmail = `${baseName}${randomNum}@gmail.com`;
+        const uniqueEmail = `order_${Date.now()}@gmail.com`;
 
         let city = "Dhaka";
         if (address && typeof address === "string") {
@@ -58,44 +56,44 @@ export default async function handler(req, res) {
             }
         }
         const data = {
-                order: {
-                    customer: {
-                        first_name: fullName.split(" ")[0],
-                        last_name: fullName.split(" ").slice(1).join(" ") || "-",
-                        email: uniqueEmail,
-                        phone: phoneNumber
-                    },
-
+            order: {
+                customer: {
+                    first_name: fullName.split(" ")[0],
+                    last_name: fullName.split(" ").slice(1).join(" ") || "-",
                     email: uniqueEmail,
-                    phone: phoneNumber,
-
-                    billing_address: {
-                        name: fullName,
-                        address1: address || "",
-                        phone: phoneNumber,
-                        city: city,
-                        country: "Bangladesh",
-                    },
-
-                    shipping_address: {
-                        name: fullName,
-                        address1: address || "",
-                        phone: phoneNumber,
-                        city: city,
-                        country: "Bangladesh",
-                    },
-                    line_items: [
-                        {
-                            variant_id: Number(VARIANT_ID),
-                            quantity,
-                        }
-                    ],
-
-                    financial_status: "pending",
+                    phone: phoneNumber
                 },
 
-            }
-            const response = await axios.post(
+                email: uniqueEmail,
+                phone: phoneNumber,
+
+                billing_address: {
+                    name: fullName,
+                    address1: address || "",
+                    phone: phoneNumber,
+                    city: city,
+                    country: "Bangladesh",
+                },
+
+                shipping_address: {
+                    name: fullName,
+                    address1: address || "",
+                    phone: phoneNumber,
+                    city: city,
+                    country: "Bangladesh",
+                },
+                line_items: [
+                    {
+                        variant_id: Number(VARIANT_ID),
+                        quantity,
+                    }
+                ],
+
+                financial_status: "pending",
+            },
+
+        }
+        const response = await axios.post(
             `https://${SHOPIFY_STORE}/admin/api/2024-01/orders.json`,
             data,
             {
