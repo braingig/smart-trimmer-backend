@@ -26,11 +26,6 @@ export default async function handler(req, res) {
                 address: "123 Main St, Dhaka",
                 quantity: 1
             },
-            environmentStatus: {
-                SHOPIFY_STORE: process.env.SHOPIFY_STORE ? "✓ Set" : "✗ Missing",
-                SHOPIFY_ADMIN_TOKEN: process.env.SHOPIFY_ADMIN_TOKEN ? "✓ Set" : "✗ Missing",
-                SHOPIFY_VARIANT_ID: process.env.SHOPIFY_VARIANT_ID ? "✓ Set" : "✗ Missing"
-            }
         });
     }
 
@@ -65,7 +60,7 @@ export default async function handler(req, res) {
                     first_name: firstName,
                     last_name: lastName,
                     email: uniqueEmail,
-                    phone: `+88${phoneNumber.replace(/^0/, "")}`
+                    phone: phoneNumber
                 },
 
                 email: uniqueEmail,
