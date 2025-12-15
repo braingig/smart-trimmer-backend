@@ -55,12 +55,10 @@ export default async function handler(req, res) {
         const formattedPhone = `+88${phoneNumber.replace(/\D/g, "").replace(/^88/, "")}`;
         const data = {
             order: {
-                customer_creation_enabled: true,
                 customer: {
                     first_name: firstName,
                     last_name: lastName,
                     email: uniqueEmail,
-                    phone: formattedPhone
                 },
 
                 email: uniqueEmail,
