@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         }
         const firstName = fullName.split(" ")[0];
         const lastName = fullName.split(" ").slice(1).join(" ") || "-";
-
+        const formattedPhone = `+88${phoneNumber.replace(/\D/g, "").replace(/^88/, "")}`;
         const data = {
             order: {
                 customer_creation_enabled: true,
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
                     first_name: firstName,
                     last_name: lastName,
                     email: uniqueEmail,
-                    phone: phoneNumber
+                    phone: formattedPhone
                 },
 
                 email: uniqueEmail,
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
                     first_name: firstName,
                     last_name: lastName,
                     address1: address || "",
-                    phone: phoneNumber,
+                    phone: formattedPhone,
                     city: city,
                     country: "Bangladesh",
                 },
@@ -78,7 +78,7 @@ export default async function handler(req, res) {
                     first_name: firstName,
                     last_name: lastName,
                     address1: address || "",
-                    phone: phoneNumber,
+                    phone: formattedPhone,
                     city: city,
                     country: "Bangladesh",
                 },
